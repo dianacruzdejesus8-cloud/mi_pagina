@@ -1,0 +1,131 @@
+
+<!-- ===================================================== -->
+<!-- PÁGINA DE DETALLE -->
+<!-- ===================================================== -->
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ lugar.nombre }}</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+
+<body>
+
+    <!-- MENÚ -->
+    <header class="navbar">
+
+        <h1>San Felipe del Progreso</h1>
+
+        <nav>
+            <a href="/">Inicio</a>
+        </nav>
+
+    </header>
+
+    <!-- BANNER DEL LUGAR -->
+    <section class="detalle-banner"
+             style="background-image:
+             linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),
+             url('{{ lugar.imagen }}');">
+
+        <div>
+
+            <h2>{{ lugar.nombre }}</h2>
+
+            <p>{{ lugar.ubicacion }}</p>
+
+        </div>
+
+    </section>
+
+    <!-- INFORMACIÓN -->
+    <main class="detalle">
+
+        <h2>Descripción</h2>
+
+        <p>{{ lugar.descripcion }}</p>
+
+        <h3>Actividades</h3>
+
+        <ul>
+
+            <!-- Recorremos actividades -->
+            {% for actividad in lugar.actividades %}
+
+            <li>{{ actividad }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+        <a class="boton" href="/">
+            Regresar
+        </a>
+
+    </main>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+     <style>
+        body{
+            font-family: Arial;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        h1{
+            color: #333;
+        }
+
+        #map{
+            height: 500px;
+            width: 80%;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Mi Ubicación en el Mapa</h1>
+
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        // Coordenadas (Toluca)
+        var latitud = 19.2826;
+        var longitud = -99.6557;
+
+        // Crear mapa
+        var map = L.map('map').setView([latitud, longitud], 13);
+
+        // Cargar mapa OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Agregar marcador
+        L.marker([latitud, longitud])
+            .addTo(map)
+            .bindPopup('Toluca, Estado de México')
+            .openPopup();
+    </script>
+
+</body>
+</html>
